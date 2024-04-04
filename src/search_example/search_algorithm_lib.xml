@@ -1,0 +1,16 @@
+<library path="search_example_package">
+    <class name="dijkstra"
+        type="search_example::algorithm::Dijkstra"
+        base_class_type="search_example::AlgorithmBase">
+        <description>
+            Plugin command for Dijkstra
+        </description>
+    </class>
+    <class name="a-start"
+        type="search_example::algorithm::AStart"
+        base_class_type="search_example::AlgorithmBase">
+        <description>
+            Plugin command for A-Start
+        </description>
+    </class>
+</library>
