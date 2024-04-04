@@ -86,8 +86,16 @@ void Dijkstra::updatePointAround(const DijkstraCell::SharedPtr& cell,
         if(it == map_.end()) continue;
         if(it->second->getPreNode() == nullptr)
             update_cells.push_back(it->second->getHash());
-        if(it->second->getCost() > (cell->getCost()+1.0)){
-            it->second->setCost(cell->getCost()+1.0);
+        auto cell_point = cell->getPoint();
+        auto check_point = it->second->getPoint();
+        auto delta_col = static_cast<double>(cell_point.first-check_point.first);
+        auto delta_row = static_cast<double>(cell_point.second-check_point.second);
+        double cost = sqrt(
+            static_cast<double>(delta_col*delta_col)*meta_data_.resolution
+            + static_cast<double>(delta_row*delta_row)*meta_data_.resolution
+        );
+        if(it->second->getCost() > (cell->getCost()+cost)){
+            it->second->setCost(cell->getCost()+cost);
             it->second->setPreNode(cell.get());
         }
     }
