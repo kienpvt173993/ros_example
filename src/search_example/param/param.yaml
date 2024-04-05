@@ -1,0 +1,4 @@
+search_example:
+  ros__parameters:
+    algorithm: dijkstra
+    map_file: /home/kien/Documents/Train/train_ros/src/search_example/map/map.yaml
