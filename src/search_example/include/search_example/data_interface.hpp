@@ -24,7 +24,6 @@ rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr s
 rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr re_pub_map_;
 AlgorithmBase::SharedPtr algorithm_;
 
-geometry_msgs::msg::Pose2D start_, goal_;
 nav_msgs::msg::OccupancyGrid::SharedPtr grid_;
 
 pluginlib::ClassLoader<AlgorithmBase> algorithm_loader_;
@@ -79,7 +78,7 @@ void getParam();
 void start();
 };
 
-}
+} // end namespace search_example
 
 
 #endif

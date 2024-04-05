@@ -1,7 +1,7 @@
 #include "search_example/data_interface.hpp"
 #include "glog/logging.h"
 #include "nav2_map_server/map_io.hpp"
-#include "search_example/math_utils.hpp"
+#include "search_example/utils/search_utils.hpp"
 
 using std::placeholders::_1;
 
@@ -21,33 +21,39 @@ DataInterface::DataInterface(): rclcpp::Node("search_algorithm_node"),
     re_pub_map_ = this->create_subscription<std_msgs::msg::Empty>("re_pub", rclcpp::SystemDefaultsQoS(),
         std::bind(&DataInterface::rePublishMap, this, _1));
 
-    map_pub_->publish(*grid_.get());
+    map_pub_->publish(*grid_);
 }
 
 DataInterface::~DataInterface(){}
 
 void DataInterface::mapLoader(const std::string file_name){
-    auto result = nav2_map_server::loadMapFromYaml(file_name, *grid_.get());
+    auto result = nav2_map_server::loadMapFromYaml(file_name, *grid_);
     CHECK_EQ(result, nav2_map_server::LOAD_MAP_SUCCESS);
 }
 
 void DataInterface::goalSub(geometry_msgs::msg::PoseStamped::SharedPtr msg){
-    goal_ = toPose2D(msg->pose);
-    algorithm_->setGoal(goal_);
+    RCLCPP_INFO(get_logger(), "Set Goal Pose %f %f",
+        msg->pose.position.x, msg->pose.position.y);
+    algorithm_->setGoal(utils::toPose2D(msg->pose));
     auto path = algorithm_->getPath();
     if(path != nullptr){
+        RCLCPP_INFO(get_logger(), "Create path success");
         path_pub_->publish(*path);
         delete path;
+    }
+    else{
+        RCLCPP_INFO(get_logger(), "Failed when search path");
     }
 }
 
 void DataInterface::startSub(geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg){
-    start_ = toPose2D(msg->pose.pose);
-    algorithm_->setStart(start_);
+    RCLCPP_INFO(get_logger(), "Set Start Pose %f %f",
+        msg->pose.pose.position.x, msg->pose.pose.position.y);
+    algorithm_->setStart(utils::toPose2D(msg->pose.pose));
 }
 
 void DataInterface::rePublishMap(std_msgs::msg::Empty::SharedPtr){
-    map_pub_->publish(*grid_.get());
+    map_pub_->publish(*grid_);
 }
 
 void DataInterface::declareParam(){
@@ -67,4 +73,4 @@ void DataInterface::start(){
     algorithm_->initialize(this->shared_from_this());
 }
 
-}
+} // end namespace search_example

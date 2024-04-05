@@ -56,7 +56,7 @@ virtual nav_msgs::msg::Path* getPath() = 0;
 
 using SharedPtr =  std::shared_ptr<AlgorithmBase>;
 
-};
+}; // end namespace search_example
 
 
 }

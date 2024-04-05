@@ -46,18 +46,18 @@ void setCost(double cost);
 std::pair<uint32_t, uint32_t> getPoint();
 
 /**
- * @brief Get the Pre Node object
+ * @brief Get the Pre Cell object
  * 
  * @return DijkstraCell* 
  */
-DijkstraCell* getPreNode();
+DijkstraCell* getPreCell();
 
 /**
- * @brief Set the Pre Node object
+ * @brief Set the Pre Cell object
  * 
  * @param prev 
  */
-void setPreNode(DijkstraCell* prev);
+void setPreCell(DijkstraCell* prev);
 
 /**
  * @brief Get the Hash object
@@ -79,7 +79,7 @@ protected:
 
 double cost_;
 uint32_t col_, row_;
-DijkstraCell* prev_node_;
+DijkstraCell* prev_cell_;
 
 };
 
@@ -93,7 +93,7 @@ protected:
 rclcpp::Node::SharedPtr node_;
 std::map<uint64_t, DijkstraCell::SharedPtr> map_;
 geometry_msgs::msg::Pose2D goal_, start_;
-nav_msgs::msg::MapMetaData meta_data_;
+nav_msgs::msg::MapMetaData::SharedPtr meta_data_;
 
 /**
  * @brief 
@@ -137,8 +137,7 @@ nav_msgs::msg::Path* getPath() override final;
 
 };
 
-}
-
-}
+} // end namespace algorithm
+} // end namespace search_example
 
 #endif
