@@ -6,4 +6,11 @@
             Plugin command for Dijkstra
         </description>
     </class>
+    <class name="a-start"
+        type="search_example::algorithm::AStart"
+        base_class_type="search_example::AlgorithmBase">
+        <description>
+            Plugin command for A-Start
+        </description>
+    </class>
 </library>
