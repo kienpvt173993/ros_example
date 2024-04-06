@@ -1,5 +1,5 @@
-#ifndef SEARCH_EXAMPLE_DIJKSTRA__HPP__
-#define SEARCH_EXAMPLE_DIJKSTRA__HPP__
+#ifndef SEARCH_EXAMPLE_A_START__HPP__
+#define SEARCH_EXAMPLE_A_START__HPP__
 
 #include "search_example/algorithm_base.hpp"
 #include "rclcpp/rclcpp.hpp"
