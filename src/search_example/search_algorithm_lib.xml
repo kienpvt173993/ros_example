@@ -13,4 +13,11 @@
             Plugin command for A-Start
         </description>
     </class>
+    <class name="rrt-start"
+        type="search_example::algorithm::RRTStart"
+        base_class_type="search_example::AlgorithmBase">
+        <description>
+            Plugin command for RRT-Start
+        </description>
+    </class>
 </library>
