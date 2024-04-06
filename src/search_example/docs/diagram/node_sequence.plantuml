@@ -1,0 +1,11 @@
+@startuml Node Sequence
+
+Node -> Rviz2: Load map
+
+Rviz2 -> Node: Set Start Position
+
+Rviz2 -> Node++: Set Goal Position
+Node -> Node++: Calculate path from start to goal
+Node -> Rviz2: Send path to rviz
+
+@enduml
