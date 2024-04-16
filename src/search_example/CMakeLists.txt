@@ -32,6 +32,7 @@ add_library(${library_name} SHARED
   src/data_interface.cpp
   src/algorithm/dijkstra.cpp
   src/algorithm/a_start.cpp
+  src/algorithm/rrt_start.cpp
 )
 
 target_include_directories(${library_name} PUBLIC 
