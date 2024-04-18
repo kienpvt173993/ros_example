@@ -15,6 +15,8 @@ RRTStart::~RRTStart(){
 void RRTStart::initialize(const rclcpp::Node::WeakPtr& node){
     node_ = node.lock();
 
+    marker_pub_ = node_->create_publisher<visualization_msgs::msg::Marker>("rrt_tree", rclcpp::SystemDefaultsQoS());
+
     node_->declare_parameter<int>("rrt_start.max_rrt_iters", 1000);
     node_->declare_parameter<double>("rrt_start.max_expansion_distance", 10);
     node_->declare_parameter<int>("rrt_start.collision_checking_points", 100);
@@ -111,6 +113,7 @@ nav_msgs::msg::Path* RRTStart::getPath(){
             return fromGoalToPath(tree, new_node);
         }
     }
+    publishTree(tree);
     return nullptr;
 }
 
@@ -244,7 +247,36 @@ nav_msgs::msg::Path* RRTStart::fromGoalToPath(
     path->poses.push_back(pose_stamped);
     path->header.frame_id = "map";
     path->header.stamp = rclcpp::Clock().now();
+    publishTree(tree);
     return path;
+}
+
+void RRTStart::publishTree(std::vector<Node> tree) const{
+    visualization_msgs::msg::Marker marker;
+    marker.color.a = 0.5f;
+    marker.color.r = 1.f;
+    marker.type = visualization_msgs::msg::Marker::LINE_LIST;
+    marker.action = visualization_msgs::msg::Marker::ADD;
+    marker.header.frame_id = "map";
+    marker.header.stamp = node_->get_clock()->now();
+    marker.ns = "rrt_start";
+    marker.id = 0;
+    marker.scale.x = 0.01f;
+    marker.pose.position.x = 0.f;
+    marker.pose.position.y = 0.f;
+    marker.pose.orientation = nav2_util::geometry_utils::orientationAroundZAxis(0.f);
+    for(const auto& node: tree){
+        if(node.parent_index != -1){
+            geometry_msgs::msg::Point start_point, end_point;
+            start_point.x = node.x;
+            start_point.y = node.y;
+            end_point.x = tree[node.parent_index].x;
+            end_point.y = tree[node.parent_index].y;
+            marker.points.push_back(start_point);
+            marker.points.push_back(end_point);
+        }
+    }
+    marker_pub_->publish(marker);
 }
 
 } // end namespace algorithm
