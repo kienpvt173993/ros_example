@@ -7,6 +7,7 @@
 #include <limits>
 #include <map>
 #include <random>
+#include "visualization_msgs/msg/marker.hpp"
 
 namespace search_example{
 namespace algorithm{
@@ -38,9 +39,17 @@ std::uniform_real_distribution<> y_dist;
 nav_msgs::msg::OccupancyGrid::SharedPtr grid_;
 geometry_msgs::msg::Pose2D start_, goal_;
 rclcpp::Node::SharedPtr node_;
+rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr marker_pub_;
 
 double max_expansion_distance_, goal_tolerance_, search_radius_, delta_x_, delta_y_;
 int max_rrt_iters_, collision_checking_points_;
+
+/**
+ * @brief 
+ * 
+ * @param tree 
+ */
+void publishTree(std::vector<Node> tree) const;
 
 /**
  * @brief 

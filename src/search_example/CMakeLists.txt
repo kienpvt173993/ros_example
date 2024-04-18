@@ -20,6 +20,7 @@ set(dependencies
   nav2_util
   nav2_map_server
   glog
+  visualization_msgs
 )
 
 foreach(name IN LISTS dependencies)
