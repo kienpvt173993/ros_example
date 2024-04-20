@@ -49,7 +49,7 @@ geometry_msgs::msg::PoseStamped RobotModel::getCurrentPosition(){
     }
     last_pose_.pose = new_pose;
     last_pose_.header.frame_id = "map";
-    last_pose_.header.stamp = last_pose_.header.stamp = node_->get_clock()->now();
+    last_pose_.header.stamp = node_->get_clock()->now();
     update_pose_callback_(last_pose_);
     return last_pose_;
 }

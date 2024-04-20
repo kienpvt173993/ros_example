@@ -7,20 +7,62 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+set(library_name base_robot_model_package)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+set(dependencies
+  sensor_msgs
+  geometry_msgs
+  nav_msgs
+  rclcpp
+  nav2_util
+  glog
+  visualization_msgs
+  search_example
+)
+
+foreach(name IN LISTS dependencies)
+  find_package(${name} REQUIRED)
+endforeach()
+
+include_directories(include)
+
+add_library(${library_name} SHARED
+  src/robot_model.cpp
+)
+
+target_link_libraries(${library_name} 
+  ${GLOG_LIBRARIES}
+  glog::glog
+)
+
+ament_target_dependencies(${library_name}
+  ${dependencies}
+)
+
+target_include_directories(${library_name} PUBLIC 
+  ${GLOG_INCLUDE_DIRS}
+)
+
+install(TARGETS ${library_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+install(DIRECTORY include/
+  DESTINATION include/
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
   set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+ament_export_include_directories(include)
+ament_export_libraries(${library_name})
+ament_export_dependencies(${dependencies})
 
 ament_package()

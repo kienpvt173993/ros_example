@@ -8,14 +8,15 @@
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <!-- <depend>sensor_msgs<depend/>
-  <depend>geometry_msgs<depend/>
-  <depend>nav_msgs<depend/>
-  <depend>rclcpp<depend/>
-  <depend>pluginlib<depend/>
-  <depend>nav2_util<depend/>
-  <depend>nav2_map_server<depend/> -->
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>rclcpp</depend>
+  <depend>pluginlib</depend>
+  <depend>nav2_util</depend>
+  <depend>nav2_map_server</depend>
 
+  <test_depend>ament_cmake_gtest</test_depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
@@ -23,4 +24,5 @@
     <build_type>ament_cmake</build_type>
     <search_example plugin="${prefix}/search_algorithm_lib.xml" />
   </export>
+
 </package>
